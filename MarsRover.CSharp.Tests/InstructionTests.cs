@@ -1,19 +1,16 @@
-using Xunit;
+using FsCheck;
+using FsCheck.Xunit;
 using MarsRover.CSharp.Domain;
 using Shouldly;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using FsCheck;
-using FsCheck.Xunit;
-using Xunit.Abstractions;
 using System.Linq;
+using Xunit;
 
 namespace MarsRover.CSharp.Tests
 {
     public class InstructionTests
     {
-        [Property(Verbose = true)]
+        [Property(Verbose = true, DisplayName = "Instruction - TryParse Can Handle Any Arbitrary Input Character Correctly")]
         public void TryParseCanHandleArbitraryCharacters(char input)
         {
 
@@ -32,7 +29,7 @@ namespace MarsRover.CSharp.Tests
             actualResult.ShouldBe(expectedResult);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Instruction - TryParse Can Handle The Known Instructions as Either LowerCase or UpperCase")]
         public void TryParseCanHandleTheKnownInstructionsAsLowerOrUpperCase()
         {
             // Arrange

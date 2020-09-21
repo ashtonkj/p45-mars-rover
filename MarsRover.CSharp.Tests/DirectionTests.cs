@@ -2,16 +2,14 @@ using FsCheck.Xunit;
 using MarsRover.CSharp.Domain;
 using Shouldly;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace MarsRover.CSharp.Tests
 {
     public class DirectionTests
     {
-        [Property(Verbose = true)]
+        [Property(Verbose = true,DisplayName ="Direction - TryParse Can Handle Any Arbirtray Input Character")]
         public void TryParseCanHandleArbitraryCharacters(char input)
         {
 
@@ -32,7 +30,7 @@ namespace MarsRover.CSharp.Tests
             actualResult.ShouldBe(expectedResult);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Direction - TryParse Can Handle The Known Directions As Either LowerCase or UpperCase")]
         public void TryParseCanHandleTheKnownDirectionsAsLowerOrUpperCase()
         {
             // Arrange
@@ -47,7 +45,7 @@ namespace MarsRover.CSharp.Tests
             result.ShouldBe(expectedResult);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Direction - ToString Yields the Expected Value for Printing")]
         public void DirectionToStringShouldGiveTheCorrectValue()
         {
             // Arrange

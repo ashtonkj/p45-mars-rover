@@ -17,7 +17,7 @@ namespace MarsRover.CSharp.Tests
 
         public Plateau TestPlateau { get; }
 
-        [Property(Verbose =true)]
+        [Property(Verbose =true, DisplayName ="Plateau - Contains Will Return True For A Valid Position")]
         public void ContainsWillReturnCorrectlyIfPositionIsValid(Position position)
         {
             var expectedResult = (position.X >= 0 && position.X <= PlateauRight) && (position.Y >= 0 && position.Y <= PlateauTop);
@@ -25,7 +25,7 @@ namespace MarsRover.CSharp.Tests
             actualResult.ShouldBe(expectedResult);
         }
 
-        [Property(Verbose = true)]
+        [Property(Verbose = true, DisplayName = "Plateau - Contains Will Always  Return False For Any X Position Less Than 0")]
         public void ContainsWillAlwaysReturnFalseForAnyPositionWhereXIsLessThan0(Position position)
         {
             if (position.X < 0)
@@ -34,7 +34,7 @@ namespace MarsRover.CSharp.Tests
             }
         }
 
-        [Property(Verbose = true)]
+        [Property(Verbose = true, DisplayName = "Plateau - Contains Will Always  Return False For Any Y Position Less Than 0")]
         public void ContainsWillAlwaysReturnFalseForAnyPositionWhereYIsLessThan0(Position position)
         {
             if (position.Y < 0)
@@ -43,7 +43,7 @@ namespace MarsRover.CSharp.Tests
             }
         }
 
-        [Property(Verbose = true)]
+        [Property(Verbose = true, DisplayName = "Plateau - Contains Will Always  Return False For Any Y Position Greater Than Plateau Top")]
         public void ContainsWillAlwaysReturnFalseForAnyPositionWhereYIsGreaterThanTop(Position position)
         {
             if (position.Y > PlateauTop)
@@ -52,7 +52,7 @@ namespace MarsRover.CSharp.Tests
             }
         }
 
-        [Property(Verbose = true)]
+        [Property(Verbose = true, DisplayName = "Plateau - Contains Will Always  Return False For Any X Position Greater Than Plateau Right")]
         public void ContainsWillAlwaysReturnFalseForAnyPositionWhereXIsGreaterThanRight(Position position)
         {
             if (position.X > PlateauRight)
@@ -61,7 +61,7 @@ namespace MarsRover.CSharp.Tests
             }
         }
 
-        [Property(Verbose=true)]
+        [Property(Verbose=true, DisplayName = "Plateau - A Plateau That is Created With Either a Top or Right Value of 0 or Less Will Throw an ArgumentOutOfRangeException")]
         public void APlateauThatIsCreatedWithEitherATopOrRightValueOfZeroOrLessWillThrowAnArgumentOutOfRangeException(Position position)
         {
             if (position.X <= 0 || position.Y <= 0)

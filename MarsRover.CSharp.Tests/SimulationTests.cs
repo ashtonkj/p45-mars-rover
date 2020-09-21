@@ -1,8 +1,5 @@
 using MarsRover.CSharp.Domain;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Xunit;
 using Shouldly;
 
@@ -10,7 +7,7 @@ namespace MarsRover.CSharp.Tests
 {
     public class SimulationTests
     {
-        [Fact]
+        [Fact(DisplayName = "Simulation - The Input Values Provided in the Instructions Yields the Expected Results")]
         public void TheProvidedSimulationFromTheInstructionsYieldsTheExpectedResults()
         {
             // Arrange
