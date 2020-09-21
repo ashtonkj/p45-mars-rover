@@ -20,6 +20,21 @@ namespace MarsRover.CSharp.Domain
             return $"{X} {Y}";
         }
 
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Position?;
+            if (other == null)
+            {
+                return false;
+            }
+            return X == other.Value.X && Y == other.Value.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
+
         /// <summary>
         /// Tries to parse a string into a position. The expected input structure of the string is: <code>X Y</code>
         /// </summary>

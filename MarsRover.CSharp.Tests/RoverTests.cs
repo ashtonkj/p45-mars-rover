@@ -26,5 +26,17 @@ namespace MarsRover.CSharp.Tests
             }
             TestPlateau.Contains(rover.Position).ShouldBeTrue();
         }
+
+        [Property(Verbose =true)]
+        public void AParsedRoverToStringShouldEqualTheOrignalRover(Position position, Direction d)
+        {
+            if (TestPlateau.Contains(position))
+            {
+                var rover = new Rover(TestPlateau, position, d);
+                var intermediate = rover.ToString();
+                var parsed = Rover.TryParse(TestPlateau, intermediate);
+                parsed.ShouldBe(rover);
+            }
+        }
     }
 }

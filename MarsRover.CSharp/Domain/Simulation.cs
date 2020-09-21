@@ -11,16 +11,23 @@ namespace MarsRover.CSharp.Domain
         private readonly TextReader _reader;
         private readonly TextWriter _writer;
 
-        public Simulation(TextReader reader, TextWriter writer)
+        private IEnumerable<Instruction> ParseInstructionLine(string instructionLine)
         {
-            _reader = reader;
-            _writer = writer;
-            Plateau = ReadPlateau();
-            Rovers = new List<Rover>();
+            var result = new List<Instruction>();
+            foreach (var instruction in instructionLine.Select(InstructionUtilities.TryParse))
+            {
+                if (instruction != null)
+                {
+                    result.Add(instruction.Value);
+                }
+            }
+            return result;
         }
 
-        public Plateau Plateau { get; }
-        public List<Rover> Rovers { get; private set; }
+        private bool IsMoreToRead()
+        {
+            return _reader.Peek() != -1;
+        }
 
         private Plateau ReadPlateau()
         {
@@ -37,32 +44,16 @@ namespace MarsRover.CSharp.Domain
             return plateau;
         }
 
-        public void HandleRover(Func<string> roverPositionLine, Func<string> instructionLine)
+        public Simulation(TextReader reader, TextWriter writer)
         {
-            var rover = Rover.TryParse(Plateau, roverPositionLine());
-            if (rover != null)
-            {
-                var instructions = instructionLine().Select(InstructionUtilities.TryParse);
-                foreach (var instruction in instructions)
-                {
-                    if (instruction != null)
-                    {
-                        rover.Handle(instruction.Value);
-                    }
-                }
-                Rovers.Add(rover);
-            }
+            _reader = reader;
+            _writer = writer;
+            Plateau = ReadPlateau();
+            Rovers = new List<Rover>();
         }
 
-        private IEnumerable<Instruction?> ParseInstructionLine(string instructionLine)
-        {
-            return instructionLine.Select(InstructionUtilities.TryParse);
-        }
-
-        private bool IsMoreToRead()
-        {
-            return _reader.Peek() != -1;
-        }
+        public Plateau Plateau { get; }
+        public List<Rover> Rovers { get; private set; }
 
         public void Execute()
         {
@@ -83,13 +74,7 @@ namespace MarsRover.CSharp.Domain
                         if (!string.IsNullOrEmpty(instructionLine))
                         {
                             var instructions = ParseInstructionLine(instructionLine);
-                            foreach (var instruction in instructions)
-                            {
-                                if (instruction != null)
-                                {
-                                    rover.Handle(instruction.Value);
-                                }
-                            }
+                            rover.HandleInstructions(instructions);
                         }
                     }
                 }
@@ -104,11 +89,15 @@ namespace MarsRover.CSharp.Domain
             }
         }
 
-        public static Simulation FromString(string str)
+        public static Simulation FromString(string str, TextWriter output)
         {
             var reader = new StringReader(str);
-            TextWriter writer = Console.Out;
-            return new Simulation(reader, writer);
+            return new Simulation(reader, output);
+        }
+
+        public static Simulation FromString(string str)
+        {
+            return FromString(str, Console.Out);
         }
     }
 }

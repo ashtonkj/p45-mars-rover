@@ -7,26 +7,6 @@ namespace MarsRover.CSharp.Domain
 {
     public class Rover
     {
-        public Rover(Plateau plateau, Position position, Direction direction)
-        {
-            if (!plateau.Contains(position))
-            {
-                throw new ArgumentOutOfRangeException(nameof(position), "Position must be within the plateau.");
-            }
-            Position = position;
-            Direction = direction;
-            Plateau = plateau;
-        }
-
-        public Position Position { get; private set; }
-        public Direction Direction { get; private set; }
-        public Plateau Plateau { get; }
-
-        public override string ToString()
-        {
-            return $"{Position.X} {Position.Y} {Direction}";
-        }
-
         private void HandleMovement()
         {
             Position offset;
@@ -45,6 +25,21 @@ namespace MarsRover.CSharp.Domain
             }
         }
 
+        public Rover(Plateau plateau, Position position, Direction direction)
+        {
+            if (!plateau.Contains(position))
+            {
+                throw new ArgumentOutOfRangeException(nameof(position), "Position must be within the plateau.");
+            }
+            Position = position;
+            Direction = direction;
+            Plateau = plateau;
+        }
+
+        public Position Position { get; private set; }
+        public Direction Direction { get; private set; }
+        public Plateau Plateau { get; }
+
         public void Handle(Instruction instruction)
         {
             switch (instruction)
@@ -54,6 +49,44 @@ namespace MarsRover.CSharp.Domain
                 case Instruction.R: Direction = Direction.RotateRight(); break;
                 default: throw new ArgumentOutOfRangeException(nameof(instruction));
             }
+        }
+
+        public void HandleInstructions(IEnumerable<Instruction> instructions)
+        {
+            foreach (var instruction in instructions)
+            {
+                Handle(instruction);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{Position.X} {Position.Y} {Direction}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Rover;
+            if (other == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Position.Equals(other.Position) && this.Direction == other.Direction;
+            }
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+        /// In this case, the hashcode is the XOR of the hashcode of the Position and the Direction.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return Position.GetHashCode() ^ Direction.GetHashCode();
         }
 
         [return: MaybeNull]
