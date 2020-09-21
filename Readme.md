@@ -9,8 +9,8 @@ This solution is for the Platform45 developer assessment. Included in the soluti
 | Project | Description |
 | ------- | ----------- |
 | MarsRover.Prototype | This project is a functional prototype of the intended solution. I created it as a means for me to think through the problem domain and see what kind of edge cases might be encountered, and what kind of solution would be viable. |
-| MarsRover.CSharp | |
-| MarsRover.CSharp.Tests | |
+| MarsRover.CSharp | The main project that includes the more OO style of the assessment |
+| MarsRover.CSharp.Tests | The test suite which contains a mixture of property based / normal unit tests |
 
 
 ### A Note on Language Features
@@ -53,7 +53,9 @@ This will run the solution with the default input data provided in Instructions.
 If you want to run the solution with an external file as input run the following (A sample text file has been included in the root of the MarsRover.CSharp project directory):
 
 `dotnet run -p MarsRover.CSharp\MarsRover.CSharp.csproj "<FULL PATH TO TEXT FILE>"`
- 
+
+---
+
 ## Assumptions
 
 ### Plateau Size
@@ -67,6 +69,8 @@ If you want to run the solution with an external file as input run the following
 * No move can cause any rover to exceed the bounds of the plateau (We're assuming that if a rover were to drive off the edge of the plateau it would plummet to its doom which would not be a desireable outcome).
 * There is no limit to the number of rovers that can occupy any grid square of the plateau at a time.
 * In theory there is no upper bound to the number of rovers that can be on the grid as a whole; practically this is limited by the resources available.
+
+---
 
 ## Testing
 
